@@ -88,11 +88,9 @@ const authController = {
         const refreshToken = createRefreshToken(user);
         // refreshTokens.push(refreshToken);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
+          sameSite: "none",
           secure: true,
           expires: new Date(Date.now() + 60 * 24 * 3600000),
-          path: "/",
-          SameSite: "None",
         });
         const { password, ...rest } = user._doc;
         return res.status(200).json({ user: { ...rest, accessToken } });
@@ -127,12 +125,17 @@ const authController = {
       const newRefreshToken = createRefreshToken(user);
       // refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", newRefreshToken, {
-        httpOnly: true,
+        sameSite: "none",
         secure: true,
         expires: new Date(Date.now() + 60 * 24 * 3600000),
-        path: "/",
-        SameSite: "None",
       });
+      // {
+      //   httpOnly: true,
+      //   secure: true,
+      //   expires: new Date(Date.now() + 60 * 24 * 3600000),
+      //   path: "/",
+      //   sameSite: "none",
+      // }
       res.status(200).json({ accessToken: newAccessToken });
     });
   },
