@@ -21,10 +21,6 @@ const connectDB = async () => {
   }
 };
 
-// moongoose.connect(process.env.MONGODB_URL, () => {
-//   console.log("Connected to mongodb");
-// });
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
@@ -40,6 +36,6 @@ app.get("/", (req, res) => {
 
 connectDB().then(() => {
   app.listen(process.env.PORT, () => {
-    console.log(`sever is running at ${process.env.PORT} `);
+    console.log(`sever is running at ${process.env.PORT}`);
   });
 });

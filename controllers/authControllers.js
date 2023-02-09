@@ -15,7 +15,7 @@ const createAccessToken = (user) => {
     },
     process.env.ACCESS_TOKEN_KEY,
     {
-      expiresIn: "3d",
+      expiresIn: "30d",
     }
   );
 };
@@ -91,8 +91,8 @@ const authController = {
           httpOnly: true,
           secure: true,
           expires: new Date(Date.now() + 60 * 24 * 3600000),
-          // path: "/",
-          sameSite: "strict",
+          path: "/",
+          sameSite: "none",
         });
         const { password, ...rest } = user._doc;
         return res.status(200).json({ user: { ...rest, accessToken } });
@@ -130,8 +130,8 @@ const authController = {
         httpOnly: true,
         secure: true,
         expires: new Date(Date.now() + 60 * 24 * 3600000),
-        // path: "/",
-        sameSite: "strict",
+        path: "/",
+        sameSite: "none",
       });
       res.status(200).json({ accessToken: newAccessToken });
     });
