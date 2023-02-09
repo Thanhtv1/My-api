@@ -92,7 +92,7 @@ const authController = {
           secure: true,
           expires: new Date(Date.now() + 60 * 24 * 3600000),
           path: "/",
-          sameSite: "none",
+          SameSite: "None",
         });
         const { password, ...rest } = user._doc;
         return res.status(200).json({ user: { ...rest, accessToken } });
@@ -131,7 +131,7 @@ const authController = {
         secure: true,
         expires: new Date(Date.now() + 60 * 24 * 3600000),
         path: "/",
-        sameSite: "none",
+        SameSite: "None",
       });
       res.status(200).json({ accessToken: newAccessToken });
     });
