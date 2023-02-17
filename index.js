@@ -20,9 +20,8 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.json());

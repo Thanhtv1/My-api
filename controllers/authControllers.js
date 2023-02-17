@@ -15,7 +15,7 @@ const createAccessToken = (user) => {
     },
     process.env.ACCESS_TOKEN_KEY,
     {
-      expiresIn: "30d",
+      expiresIn: "60d",
     }
   );
 };
@@ -26,7 +26,7 @@ const createRefreshToken = (user) => {
       username: user.username,
     },
     process.env.REFRESH_TOKEN_KEY,
-    { expiresIn: "60d" }
+    { expiresIn: "90d" }
   );
 };
 let refreshTokens = [];
@@ -46,10 +46,10 @@ const authController = {
         username: username.toLowerCase(),
       });
       if (checkEmail) {
-        return res.status(400).json("The email already exists");
+        return res.status(400).json("This EMAIL already exists");
       }
       if (checkUserName) {
-        return res.status(400).json("The username already exists");
+        return res.status(400).json("This USERNAME already exists");
       }
       if (password.length < 5) {
         return res
@@ -88,7 +88,8 @@ const authController = {
         const refreshToken = createRefreshToken(user);
         // refreshTokens.push(refreshToken);
         res.cookie("refreshToken", refreshToken, {
-          sameSite: "none",
+          httpOnly: true,
+          sameSite: 'none',
           secure: true,
           expires: new Date(Date.now() + 60 * 24 * 3600000),
         });
@@ -112,30 +113,19 @@ const authController = {
     if (!rfToken) {
       return res.status(401).json("You are not authenticated");
     }
-    // if (!refreshTokens.includes(rfToken)) {
-    //   return res.status(403).json("Refresh Token are Not Valid");
-    // }
     jwt.verify(rfToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
       if (err) {
         return res.status.json(err);
       }
-      // refreshTokens = refreshTokens.filter((token) => token !== rfToken);
       // create new acc and refresh token
       const newAccessToken = createAccessToken(user);
       const newRefreshToken = createRefreshToken(user);
-      // refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", newRefreshToken, {
-        sameSite: "none",
+        sameSite: 'none',
+        httpOnly: true,
         secure: true,
         expires: new Date(Date.now() + 60 * 24 * 3600000),
       });
-      // {
-      //   httpOnly: true,
-      //   secure: true,
-      //   expires: new Date(Date.now() + 60 * 24 * 3600000),
-      //   path: "/",
-      //   sameSite: "none",
-      // }
       res.status(200).json({ accessToken: newAccessToken });
     });
   },
