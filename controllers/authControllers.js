@@ -91,6 +91,7 @@ const authController = {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
+          domain: 't-chill-movie.vercel.app',
           expires: new Date(Date.now() + 60 * 24 * 3600000),
         });
         const { password, ...rest } = user._doc;
@@ -124,6 +125,7 @@ const authController = {
         sameSite: 'none',
         httpOnly: true,
         secure: true,
+        domain: 't-chill-movie.vercel.app',
         expires: new Date(Date.now() + 60 * 24 * 3600000),
       });
       res.status(200).json({ accessToken: newAccessToken });
