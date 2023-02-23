@@ -30,7 +30,7 @@ app.use("/auth", authRoute);
 app.use("/user", userRoute);
 
 app.get("/", (req, res) => {
-  res.send("hello app");
+  res.send("t-movie API");
 });
 
 connectDB().then(() => {

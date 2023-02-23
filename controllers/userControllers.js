@@ -73,7 +73,6 @@ const userController = {
         req.user.password
       );
       res.clearCookie("refreshToken");
-      // return res.status(200).json("Delete test");
       if (validPassword) {
         await User.findOneAndDelete({ _id: req.user._id });
         res.clearCookie("refreshToken");

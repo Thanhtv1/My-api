@@ -3,9 +3,9 @@ const User = require("../models/User");
 
 const middlewareController = {
   verifyToken: async (req, res, next) => {
+    // return res.status(404).json(req.header('Authorization').split(" ")[1])
     try {
       const token = req.header('Authorization').split(" ")[1];
-      // const token = req.headers.token.split(" ")[1];
       if (token) {
         const data = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
         const user = await User.findOne({ _id: data.id });

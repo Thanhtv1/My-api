@@ -86,12 +86,10 @@ const authController = {
       if (user && validPassword) {
         const accessToken = createAccessToken(user);
         const refreshToken = createRefreshToken(user);
-        // refreshTokens.push(refreshToken);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
-          domain: 't-chill-movie.vercel.app',
           expires: new Date(Date.now() + 60 * 24 * 3600000),
         });
         const { password, ...rest } = user._doc;
@@ -116,7 +114,7 @@ const authController = {
     }
     jwt.verify(rfToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
       if (err) {
-        return res.status.json(err);
+        return res.status(401).json(err);
       }
       // create new acc and refresh token
       const newAccessToken = createAccessToken(user);
@@ -125,7 +123,6 @@ const authController = {
         sameSite: 'none',
         httpOnly: true,
         secure: true,
-        domain: 't-chill-movie.vercel.app',
         expires: new Date(Date.now() + 60 * 24 * 3600000),
       });
       res.status(200).json({ accessToken: newAccessToken });
